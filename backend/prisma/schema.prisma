@@ -1,0 +1,43 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid()) @db.Uuid
+  email     String   @unique
+  name      String?
+  passwordHash  String @map("password_hash")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt
+  Albums    Album[]
+} 
+
+model Album {
+  id        String   @id @default(uuid()) @db.Uuid
+  title     String
+  userId    String   @map("user_id") @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+}
+
+model Photo {
+  id        String   @id @default(uuid()) @db.Uuid
+  albumId   String   @map("album_id") @db.Uuid
+  userId    String    @map("user_id") @db.Uuid
+  OriginalName String   @map("original_name")
+  publicId     String   @map("public_id")
+  urlImage     String   @map("url_image")
+  sizeBytes    Int      @map("size_bytes")
+  width    Int?
+  height   Int?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt
+  Album     Album    @relation(fields: [albumId], references: [id])
+  User      User     @relation(fields: [userId], references: [id])
+}
