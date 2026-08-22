@@ -8,7 +8,7 @@ interface AlbumProps{
 }
 
 
-class Album{
+export class Album{
     readonly id;
     readonly title;
     readonly description;

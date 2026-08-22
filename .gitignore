@@ -1,3 +1,7 @@
 .env
 /backend/node_modules
+<<<<<<< HEAD
 /backend/prisma/migrations
+=======
+/backend/migrations
+>>>>>>> 109c2df03f2071557be317d8f412cfa262f79dff
