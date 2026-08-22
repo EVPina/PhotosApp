@@ -1,6 +1,5 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -14,16 +13,18 @@ model User {
   passwordHash  String @map("password_hash")
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt
-  Albums    Album[]
+  albums       Album[]
 } 
 
 model Album {
   id        String   @id @default(uuid()) @db.Uuid
   title     String
+  description String
   userId    String   @map("user_id") @db.Uuid
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt
   User      User     @relation(fields: [userId], references: [id])
+  Photo     Photo[]
 }
 
 model Photo {
@@ -39,5 +40,4 @@ model Photo {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt
   Album     Album    @relation(fields: [albumId], references: [id])
-  User      User     @relation(fields: [userId], references: [id])
 }
