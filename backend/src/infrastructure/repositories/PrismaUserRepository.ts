@@ -1,8 +1,8 @@
 import { plainToInstance } from "class-transformer";
 import { CreateUserDto, UserDto } from "../../application/dtos/user.dto";
-import { User } from "../../infrastructure/services/domain/entities/User";
+import { User } from "../../domain/entities/User";
 import prisma from "../database/prismaClient";
-import { IUserRepository } from "../services/domain/repositories/IUserRepository";
+import { IUserRepository } from "../../domain/repositories/IUserRepository";
 
 export class PrismaUserRepository implements IUserRepository {
 

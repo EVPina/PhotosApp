@@ -1,5 +1,5 @@
 import { CreateUserDto, UserDto } from '../../application/dtos/user.dto'
-import {User} from '../entities/User'
+import {User} from '../../../../domain/entities/User'
 
 export interface IUserRepository {
     findUserById(id:String):Promise<UserDto|null>

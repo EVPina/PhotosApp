@@ -1,4 +1,4 @@
-import {Album} from '../entities/Album';
+import {Album} from '../../../../domain/entities/Album';
 
 export interface IAlbumRepository {
     findAlbumById(album_id:String): Promise<Album | null> 
