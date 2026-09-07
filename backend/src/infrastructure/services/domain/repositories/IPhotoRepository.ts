@@ -1,6 +1,6 @@
 import { Photo } from "../entities/Photo"
 
-export interface PhotoRepository {
+export interface IPhotoRepository {
     findPhotoById(photo_id:String):Promise<Photo | null>
     findPhotoByAlbumId(album_id:String):Promise<Photo | null>
     create(photoData:Object):Promise<Photo>
