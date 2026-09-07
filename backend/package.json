@@ -8,11 +8,15 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/infrastructure/webserver/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/infrastructure/webserver/server.ts",
+    "build": "tsc",
+    "start": "node dist/infrastructure/webserver/server.js",
+    "test": "jest --runInBand",
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.10.0",
+    "@prisma/client": "^7.10.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
     "dotenv": "^17.4.2",
@@ -21,11 +25,16 @@
     "jsonwebtoken": "^9.0.3",
     "lint-staged": "^17.3.0",
     "multer": "^2.2.0",
-    "prisma": "^7.9.1"
+    "pg": "^8.23.0",
+    "prisma": "^7.10.0"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.2.0",
+    "@types/pg": "^8.23.1",
     "nodemon": "^3.1.14",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.23.12",

@@ -3,7 +3,9 @@
     "target": "ES2022",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false ,  // para evitar errores si no inicializas propiedades,
     "rootDir": "src",
     "outDir": "dist",
 
