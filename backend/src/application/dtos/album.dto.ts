@@ -25,11 +25,11 @@ export class AlbumDto {
 
 export interface CreateAlbumDto {
   userId: string;
-  name: string;
+  title: string;
   description?: string | null;
 }
 
 export interface UpdateAlbumDto {
-  name?: string;
-  description?: string | null;
+  title?: string;
+  description?: string;
 }

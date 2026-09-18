@@ -2,7 +2,6 @@ import { AplicationRegisterUser } from "../../application/auth/Application_Regis
 import { Application_LoginUser } from "../../application/auth/Application_LoginUser";
 import { UserDto } from "../../application/dtos/user.dto";
 import { Request, Response, NextFunction } from 'express';
-import { JwTokenService } from "../../infrastructure/services/JwtTokenService";
 import { Application_RefreshToken } from "../../application/auth/Application_RefreshToken";
 
 export class AuthController {
@@ -33,7 +32,7 @@ export class AuthController {
             const { email, password } = req.body;
             const {user, token, refreshToken} = await this.loginUser.execute({ email, password });
            
-            res.cookie('accessToken', token, { httpOnly: true, secure: true, sameSite: 'strict' , maxAge: 15*60*1000  });
+            res.cookie('accessToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' , maxAge: 15*60*1000  });
             res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/api/auth/refresh' , maxAge: 7*24*60*60*1000});
            
             res.status(200).json({ user: { id: user.id, email: user.email} });

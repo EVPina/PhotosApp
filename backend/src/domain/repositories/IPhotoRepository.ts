@@ -1,9 +1,9 @@
-import { Photo } from "../../../../domain/entities/Photo"
+import { CreatePhotoDto, PhotoDto } from "../../application/dtos/photo.dto"
 
 export interface IPhotoRepository {
-    findPhotoById(photo_id:String):Promise<Photo | null>
-    findPhotoByAlbumId(album_id:String):Promise<Photo | null>
-    create(photoData:Object):Promise<Photo>
-    update(photo_id:String, photoData:Object):Promise<Photo>
-    delete(photo_id:String):Promise<Photo>
+    findPhotoById(photo_id:String):Promise<PhotoDto | null>
+    findPhotoByAlbumId(album_id:String):Promise<PhotoDto[]>
+    countByAlbumId(albumId: string): Promise<number>;
+    createPhoto(photoData:CreatePhotoDto):Promise<PhotoDto>
+    deletePhoto(photo_id:String):Promise<void>
 }

@@ -8,7 +8,7 @@ export class PrismaUserRepository implements IUserRepository {
 
     async findUserById(id: string): Promise<UserDto | null> {
         const user = await prisma.user.findUnique({ where: {id} });
-        return user ? new User({ id: user.id, email: user.email, passwordHash: user.passwordHash, createdAt: user.createdAt, updatedAt: user.updatedAt ?? undefined }) : null;
+        return user ? plainToInstance(UserDto, user) : null;
     }
     async findByEmail(email: string): Promise<UserDto | null> {
         const prismaUser = await prisma.user.findUnique({ where: { email } });

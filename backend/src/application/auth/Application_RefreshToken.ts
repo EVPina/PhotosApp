@@ -1,4 +1,4 @@
-import { IUserRepository } from '../../infrastructure/services/domain/repositories/IUserRepository';
+import { IUserRepository } from '../../domain/repositories/IUserRepository';
 import { ITokenService } from '../ports/ITokenService';
 
 export class Application_RefreshToken {

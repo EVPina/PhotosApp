@@ -4,11 +4,11 @@ import { BcryptHashService } from "../../infrastructure/services/BcryptHashServi
 import { ITokenService } from "../ports/ITokenService";
 
 export class Application_LoginUser{
-    constructor(private userRepository:PrismaUserRepository, private hashService: BcryptHashService, private tokenService:ITokenService) {
+    constructor(private prismauserRepository:PrismaUserRepository, private hashService: BcryptHashService, private tokenService:ITokenService) {
     }
 
     async execute({email,password}:{ email: string , password: string }) {
-        const user = await this.userRepository.findByEmail(email);
+        const user = await this.prismauserRepository.findByEmail(email);
         if (!user) {
             throw new Error("Usuario no encontrado");
         }
