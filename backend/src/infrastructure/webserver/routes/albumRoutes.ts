@@ -2,6 +2,12 @@ import { Router } from 'express';
 import { AlbumController } from '../../../interfaces/controller/AlbumController';
 import { authMiddleware } from '../middlewares/authMiddleware';
 
+/**
+ * @swagger
+ * tags:
+ *   name: Albums
+ *   description: Manejo de Albums
+ */
 export default (albumController: AlbumController): Router => {
   const router = Router();
 
@@ -73,7 +79,7 @@ export default (albumController: AlbumController): Router => {
    *           schema:
    *             type: object
    *             properties:
-   *               name:
+   *               title:
    *                 type: string
    *               description:
    *                 type: string

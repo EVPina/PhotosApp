@@ -7,9 +7,9 @@ export class Application_DeleteAlbum{
     }
 
     async execute(albumId: string,userId: string): Promise<void> {
-        const existingAlbum = await this.AlbumRepository.findById(albumId);
+        const existingAlbum = await this.AlbumRepository.findAlbumById(albumId);
 
-        if( !existingAlbum || existingAlbum.userId !== userId ){
+        if( !existingAlbum){
             throw new Error("No se encuentra Album");
         }
         

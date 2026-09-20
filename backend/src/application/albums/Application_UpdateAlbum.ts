@@ -13,7 +13,7 @@ export class Application_UpdateAlbum{
         }
 
         const allowedChanges : UpdateAlbumDto  = {}
-            if(changes.title !== undefined) allowedChanges.name = changes.title;
+            if(changes.title !== undefined) allowedChanges.title = changes.title;
             if(changes.description !== undefined) allowedChanges.description = changes.description;
         return this.albumRepository.updateAlbum(albumId, allowedChanges);
     }
