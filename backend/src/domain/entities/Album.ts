@@ -1,10 +1,11 @@
 interface AlbumProps{
   id: string;
   title: string;
-  description: string;
+  description?: string | null;
   userId: string;
   createdAt: Date;
-  updatedAt?: Date;
+  updatedAt?: Date | null;
+  photoCount?: number;
 }
 
 
@@ -15,17 +16,19 @@ export class Album{
     readonly userId;
     readonly createdAt;
     readonly updatedAt;
+    readonly photoCount;
 
     constructor(props:AlbumProps) {
         this.id = props.id;
         this.title = props.title;
-        this.description = props.description;
+        this.description = props.description??null;
         this.userId = props.userId;
         this.createdAt = props.createdAt;
-        this.updatedAt = props.updatedAt||null;
+        this.updatedAt = props.updatedAt ?? null;
+        this.photoCount = props.photoCount ?? 0;
     }
 
-    CanCreatePhoto(currentPhotoCount:number):boolean {
+    canAddPhoto(currentPhotoCount:number):boolean {
         return currentPhotoCount < 20;
     }
 }

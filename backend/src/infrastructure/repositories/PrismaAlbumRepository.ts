@@ -1,12 +1,12 @@
 import { plainToInstance } from "class-transformer";
-import { AlbumDto, UpdateAlbumDto } from "../../application/dtos/album.dto";
+import { AlbumDto, CreateAlbumDto, UpdateAlbumDto } from "../../application/dtos/album.dto";
 import { Album } from "../../domain/entities/Album";
 import { IAlbumRepository } from "../../domain/repositories/IAlbumRepository";
 import prisma from "../database/prismaClient";
 
 export class PrismaAlbumRepository implements IAlbumRepository {
  
-    async findAlbumById(album_id: string): Promise<AlbumDto[] | null> {
+    async findAlbumById(album_id: string): Promise<AlbumDto | null> {
 
         const album = await prisma.album.findUnique({
             where: { id: album_id },
@@ -15,13 +15,13 @@ export class PrismaAlbumRepository implements IAlbumRepository {
         
         if (!album  ) return null;
 
-        return [plainToInstance(AlbumDto, {
+        return plainToInstance(AlbumDto, {
             ...album,
             photoCount: album._count.Photo,
-        })];
+        });
     }
 
-    async findByUserId(userId: string): Promise<AlbumDto[] | null> {
+    async findByUserId(userId: string): Promise<AlbumDto[]> {
         console.log("Finding albums for userId:", userId); // Debugging line
 
         const albums = await prisma.album.findMany({
@@ -29,7 +29,6 @@ export class PrismaAlbumRepository implements IAlbumRepository {
             include: { _count: { select: { Photo: true } } },
             orderBy: { createdAt: 'desc' }
         });
-        if (!albums) return null;
 
         return albums.map((album) =>
             plainToInstance(AlbumDto, {
@@ -46,8 +45,12 @@ export class PrismaAlbumRepository implements IAlbumRepository {
         return count;
     }
 
-    async createAlbum(albumData: any) : Promise<AlbumDto>{
-        const album = await prisma.album.create({ data: albumData });
+    async createAlbum(albumData: CreateAlbumDto) : Promise<AlbumDto>{
+        const album = await prisma.album.create({ data: {
+            userId: albumData.userId,
+            title: albumData.title,
+            description: albumData.description ?? null,
+        } });
         return plainToInstance(AlbumDto, album);
     }
 

@@ -8,7 +8,7 @@ export class AlbumDto {
   userId: string;
 
   @Expose()
-  name: string;
+  title: string;
 
   @Expose()
   description?: string | null;

@@ -29,10 +29,13 @@ export default (authController: AuthController): Router => {
    *             properties:
    *               email:
    *                 type: string
+   *                 example: "usuario@example.com"
    *               name:
    *                 type: string
+   *                 example: "Juan Pérez"
    *               password:
    *                 type: string
+   *                 example: "contraseña123"
    *     responses:
    *       201:
    *         description: Usuario creado
@@ -59,8 +62,10 @@ export default (authController: AuthController): Router => {
    *             properties:
    *               email:
    *                 type: string
+   *                 example: "enzo"
    *               password:
    *                 type: string
+   *                 example: "123456"
    *     responses:
    *       200:
    *         description: Login exitoso, establece cookies

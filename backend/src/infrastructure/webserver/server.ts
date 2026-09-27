@@ -33,6 +33,12 @@ import { PrismaAlbumRepository } from '../repositories/PrismaAlbumRepository';
 import { PrismaPhotoRepository } from '../repositories/PrismaPhotoRepository';
 import { CloudinaryStorageService } from '../services/CloudinaryStorageService';
 import albumRoutes from './routes/albumRoutes';
+import { Application_UploadPhoto } from '../../application/photos/Application_UploadPhoto';
+import { PhotoController } from '../../interfaces/controller/PhotoController';
+import { Application_DeletePhoto } from '../../application/photos/Application_DeletePhoto';
+import { Application_GetPhotoDetail } from '../../application/photos/Application_GetPhotoDetail';
+import { Application_GetAlbumPhotos } from '../../application/photos/Application_GetAlbumPhotos';
+import photoRoutes from './routes/photoRoutes';
 
 // 1. Instanciar repositorios
 const userRepository = new PrismaUserRepository();
@@ -54,10 +60,15 @@ const createAlbum = new Application_CreateAlbum(albumRepository, userRepository)
 const deleteAlbum = new Application_DeleteAlbum(albumRepository,storageService,photoRepository);
 const updateAlbum = new Application_UpdateAlbum(albumRepository);
 
+const uploadPhoto = new Application_UploadPhoto(photoRepository, albumRepository, storageService);
+const getAlbumPhotos = new Application_GetAlbumPhotos( albumRepository,photoRepository,);
+const getPhotoDetail = new Application_GetPhotoDetail(photoRepository, albumRepository);
+const deletePhoto = new Application_DeletePhoto(photoRepository,albumRepository, storageService);
 
 // 4. Instanciar controladores
 const authController = new AuthController(registerUser, loginUser, refreshToken);
 const albumController = new AlbumController(createAlbum, getUserAlbum, updateAlbum, deleteAlbum);
+const photoController = new PhotoController(uploadPhoto, getAlbumPhotos, getPhotoDetail, deletePhoto);
 
 // 5. Crear aplicación Express
 const app: Application = express();
@@ -73,6 +84,7 @@ app.use(express.urlencoded({ extended: true }));
 // 7. Montar rutas
 app.use('/api/auth', authRoutes(authController));
 app.use('/api/albums', albumRoutes(albumController));
+app.use('/api/photos', photoRoutes(photoController));
 
 // Middleware de manejo de errores (SIEMPRE AL FINAL)
 app.use(errorHandler);
