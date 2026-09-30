@@ -5,7 +5,9 @@ export interface IAlbumRepository {
     findAlbumById(album_id: string): Promise<AlbumDto | null>
     findByUserId(userId: string): Promise<AlbumDto[] | null> 
     countByUserId(userId: string): Promise<number>
+    countByAlbumId(albumId: string): Promise<number>
     createAlbum(albumData:Object) : Promise<AlbumDto>
     updateAlbum(album_id: string, changes: UpdateAlbumDto): Promise<AlbumDto>
     deleteAlbum(album_id: string):  Promise<void>
+    existsByUserIdAndTitle(userId: string, title: string): Promise<boolean>
 }

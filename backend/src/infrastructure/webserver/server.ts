@@ -56,7 +56,7 @@ const loginUser = new Application_LoginUser(userRepository, hashService, tokenSe
 const refreshToken = new Application_RefreshToken(tokenService, userRepository);
 
 const getUserAlbum = new Application_GetUserAlbums(albumRepository);
-const createAlbum = new Application_CreateAlbum(albumRepository, userRepository);
+const createAlbum = new Application_CreateAlbum(albumRepository, userRepository, storageService);
 const deleteAlbum = new Application_DeleteAlbum(albumRepository,storageService,photoRepository);
 const updateAlbum = new Application_UpdateAlbum(albumRepository);
 
@@ -84,7 +84,7 @@ app.use(express.urlencoded({ extended: true }));
 // 7. Montar rutas
 app.use('/api/auth', authRoutes(authController));
 app.use('/api/albums', albumRoutes(albumController));
-app.use('/api/photos', photoRoutes(photoController));
+app.use('/api/albums', photoRoutes(photoController));
 
 // Middleware de manejo de errores (SIEMPRE AL FINAL)
 app.use(errorHandler);

@@ -1,11 +1,14 @@
 import { User } from "../../domain/entities/User";
 import { AlbumLimitReachedError } from "../../domain/errors/AlbumLimitReachedError";
+import { AlbumTitleAlreadyExistsError } from "../../domain/errors/AlbumTitleAlreadyExistsError";
 import { IAlbumRepository } from "../../domain/repositories/IAlbumRepository";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
+import { slugify } from "../../shared/utils/slugify";
 import { CreateAlbumDto } from "../dtos/album.dto";
+import { IStorageService } from "../ports/IStorageService";
 
 export class Application_CreateAlbum{
-    constructor(private albumRepository:IAlbumRepository, private userRepository:IUserRepository) {
+    constructor(private albumRepository:IAlbumRepository, private userRepository:IUserRepository,private storageService: IStorageService) {
     }
 
     async execute( userId: string, title: string, description: string | null ) {
@@ -28,7 +31,20 @@ export class Application_CreateAlbum{
             throw new AlbumLimitReachedError();
         }
 
-        const createData: CreateAlbumDto = { userId, title, description };        
+        const exists = await this.albumRepository.existsByUserIdAndTitle(userId, title);
+        if (exists) 
+            throw new AlbumTitleAlreadyExistsError();
+
+        const userName = (userDto.name || userDto.email.split('@')[0] || 'user').trim();
+        const userFolder = `${slugify(userName)}_${userId}`;
+        const albumFolderName = slugify(title);
+        const albumFolderPath = `${userFolder}/${albumFolderName}`;
+
+        await this.storageService.createFolderIfNotExists(userFolder);
+
+        await this.storageService.createFolderIfNotExists(albumFolderPath);
+
+        const createData: CreateAlbumDto = { userId, title, description,folder: albumFolderPath };        
         return this.albumRepository.createAlbum(createData);
     }
 }

@@ -48,6 +48,24 @@ export default (photoController: PhotoController): Router => {
    *     tags: [Photos]
    *     security:
    *       - cookieAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: albumId
+   *         required: true
+   *         schema:
+   *           type: string
+   *           example: "8aabfb57-3a88-4a1d-80f6-6710856e8bbf"
+   *     responses:
+   *       200:
+   *         description: Lista de fotos del álbum
+   *         content:
+   *           application/json:
+   *             schema:
+   *               type: array
+   *               items:
+   *                 $ref: '#/components/schemas/Photo'
+   *       404:
+   *         description: Álbum no encontrado
    */
   router.get('/:albumId/photos', photoController.getAlbumPhotosHandler.bind(photoController));
 
@@ -59,6 +77,22 @@ export default (photoController: PhotoController): Router => {
    *     tags: [Photos]
    *     security:
    *       - cookieAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id
+   *         required: true
+   *         schema:
+   *           type: string
+   *           example: "1e4257e2-624c-4630-a939-ff5a22a1d34e"
+   *     responses:
+   *       200:
+   *         description: Detalle de la foto
+   *         content:
+   *           application/json:
+   *             schema:
+   *               $ref: '#/components/schemas/Photo'
+   *       404:
+   *         description: Foto no encontrada
    */
   router.get('/photos/:id', photoController.getPhotoDetailHandler.bind(photoController));
 
@@ -70,6 +104,12 @@ export default (photoController: PhotoController): Router => {
    *     tags: [Photos]
    *     security:
    *       - cookieAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: id                          // ← debe ser "id"
+   *         required: true
+   *         schema:
+   *           type: string
    */
   router.delete('/photos/:id', photoController.deletePhotoHandler.bind(photoController));
 

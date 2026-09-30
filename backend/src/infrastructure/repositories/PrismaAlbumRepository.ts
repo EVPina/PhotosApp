@@ -44,12 +44,18 @@ export class PrismaAlbumRepository implements IAlbumRepository {
         });
         return count;
     }
+    
+    // PrismaAlbumRepository
+    async countByAlbumId(albumId: string): Promise<number> {
+        return prisma.photo.count({ where: { albumId } });
+    }
 
     async createAlbum(albumData: CreateAlbumDto) : Promise<AlbumDto>{
         const album = await prisma.album.create({ data: {
             userId: albumData.userId,
             title: albumData.title,
             description: albumData.description ?? null,
+            folder: albumData.folder,
         } });
         return plainToInstance(AlbumDto, album);
     }
@@ -61,5 +67,12 @@ export class PrismaAlbumRepository implements IAlbumRepository {
 
     async deleteAlbum(album_id: string):  Promise<void>{
           await prisma.album.delete({ where: { id: album_id } });
+    }
+
+    async existsByUserIdAndTitle(userId: string, title: string): Promise<boolean> {
+        const count = await prisma.album.count({
+            where: { userId, title },
+        });
+        return count > 0;
     }
 }

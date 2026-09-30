@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { TokenExpiredError, JsonWebTokenError, NotBeforeError } from 'jsonwebtoken';
 import { AlbumLimitReachedError } from '../../../domain/errors/AlbumLimitReachedError';
 import { PhotoLimitReachedError } from '../../../domain/errors/PhotoLimitReachedError';
+import { AlbumTitleAlreadyExistsError } from '../../../domain/errors/AlbumTitleAlreadyExistsError';
 
 export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
   console.error(err);
@@ -30,8 +31,9 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
     return res.status(404).json({ message: err.message });
   }
 
-  // Error por defecto
-  return res.status(500).json({ message: 'Internal server error' });
+  if (err instanceof AlbumTitleAlreadyExistsError) {
+    return res.status(409).json({ message: err.message });
+  }
 
   if (err instanceof PhotoLimitReachedError) {
     return res.status(400).json({ message: err.message });
@@ -48,4 +50,7 @@ export function errorHandler(err: any, req: Request, res: Response, next: NextFu
   if (err.message === 'Photo not found') {
     return res.status(404).json({ message: err.message });
   }
+
+   // Error por defecto
+  return res.status(500).json({ message: 'Internal server error' });
 }

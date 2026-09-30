@@ -41,19 +41,21 @@ export class PhotoController {
             res.status(200).json(photos);
         } catch (error) {
             next(error);
-            res.status(500).json({ error: "Error fetching album photos" });
         }
     }
 
     async getPhotoDetailHandler(req: Request, res: Response,next: NextFunction): Promise<void> {
         try {
-            const photoId = req.params.photoId as string;
+            const photoId = req.params.id as string;
             const userId = req.userId!;
+            if (!photoId) {
+                res.status(400).json({ message: 'Photo id is required' });
+                return;
+            }
             const photo = await this.getPhoto.execute(photoId, userId);
             res.status(200).json(photo);
         } catch (error) {
             next(error);
-            res.status(500).json({ error: "Error fetching photo details" });
         }
     }
 

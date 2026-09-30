@@ -14,6 +14,9 @@ export class AlbumDto {
   description?: string | null;
 
   @Expose()
+  folder: string; 
+
+  @Expose()
   photoCount?: number;  // campo calculado, no viene de Prisma directamente
 
   @Expose()
@@ -27,6 +30,7 @@ export interface CreateAlbumDto {
   userId: string;
   title: string;
   description?: string | null;
+  folder: string;
 }
 
 export interface UpdateAlbumDto {

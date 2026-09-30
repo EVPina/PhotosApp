@@ -2,6 +2,7 @@ interface AlbumProps{
   id: string;
   title: string;
   description?: string | null;
+  folder: string;
   userId: string;
   createdAt: Date;
   updatedAt?: Date | null;
@@ -13,6 +14,7 @@ export class Album{
     readonly id;
     readonly title;
     readonly description;
+    readonly folder;
     readonly userId;
     readonly createdAt;
     readonly updatedAt;
@@ -22,6 +24,7 @@ export class Album{
         this.id = props.id;
         this.title = props.title;
         this.description = props.description??null;
+        this.folder = props.folder;
         this.userId = props.userId;
         this.createdAt = props.createdAt;
         this.updatedAt = props.updatedAt ?? null;
