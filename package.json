@@ -1,15 +1,15 @@
 {
-  "dependencies": {
-    "class-transformer": "^0.5.1",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.6",
-    "jsonwebtoken": "^9.0.3",
-    "reflect-metadata": "^0.2.2",
-    "swagger-jsdoc": "^6.3.0",
-    "swagger-ui-express": "^5.0.1"
+  "name": "photos-app-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node dev.js",
+    "dev:back": "npm run dev --prefix backend",
+    "dev:front": "npm run dev --prefix frontend",
+    "build:back": "npm run build --prefix backend",
+    "build:front": "npm run build --prefix frontend"
   },
   "devDependencies": {
-    "@types/swagger-jsdoc": "^6.0.4",
-    "@types/swagger-ui-express": "^4.1.8"
+    "concurrently": "8.2.2"
   }
 }
