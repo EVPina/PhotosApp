@@ -5,7 +5,12 @@ import { PhotoLimitReachedError } from '../../../domain/errors/PhotoLimitReached
 import { AlbumTitleAlreadyExistsError } from '../../../domain/errors/AlbumTitleAlreadyExistsError';
 
 export function errorHandler(err: any, req: Request, res: Response, next: NextFunction) {
-  console.error(err);
+    // ⚠️ SI LOS HEADERS YA SE ENVIARON, DELEGAR AL MANEJADOR POR DEFECTO DE EXPRESS
+    if (res.headersSent) {
+      return next(err);
+    }
+
+    console.error(err);
 
   // Errores de JWT
   if (err instanceof TokenExpiredError) {

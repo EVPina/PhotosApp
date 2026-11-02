@@ -1,3 +1,4 @@
+import { config } from "dotenv";
 import { User } from "../../domain/entities/User";
 import { AlbumLimitReachedError } from "../../domain/errors/AlbumLimitReachedError";
 import { AlbumTitleAlreadyExistsError } from "../../domain/errors/AlbumTitleAlreadyExistsError";
@@ -35,8 +36,11 @@ export class Application_CreateAlbum{
         if (exists) 
             throw new AlbumTitleAlreadyExistsError();
 
+        // 1. Obtenemos la carpeta principal (ej. "PhotosApp")
+        const baseFolder =  'PhotosApp';
+
         const userName = (userDto.name || userDto.email.split('@')[0] || 'user').trim();
-        const userFolder = `${slugify(userName)}_${userId}`;
+        const userFolder = `${baseFolder}/${slugify(userName)}_${userId}`;
         const albumFolderName = slugify(title);
         const albumFolderPath = `${userFolder}/${albumFolderName}`;
 

@@ -61,8 +61,9 @@ export class PhotoController {
 
     async deletePhotoHandler(req: Request, res: Response,next: NextFunction): Promise<void> {
         try {
-            const photoId = req.params.photoId as string;
+            const photoId = req.params.id as string;
             const userId = req.userId!;
+
             await this.deletePhoto.execute(photoId, userId);
             res.status(200).json({ message: "Photo deleted successfully" });
         } catch (error) {

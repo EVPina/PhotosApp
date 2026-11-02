@@ -10,9 +10,16 @@ export class AlbumController {
     
     async createAlbum(req: Request, res: Response,next:NextFunction) : Promise<void>{
         try{
-            const { userId, title, description } = req.body;
-            const album = await this.application_CreateAlbum.execute(userId, title, description);
-            res.status(201).json(album);
+            const userId = req.userId; 
+            const { title, description } = req.body;
+                console.log('userId:', userId);
+               if (!userId) {
+                res.status(401).json({ message: 'No autenticado. Inicia sesión de nuevo.' });
+                return;
+                }
+
+                const album = await this.application_CreateAlbum.execute(userId, title, description);
+                res.status(201).json(album);
         }catch(error){
             next(error);
         }

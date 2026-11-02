@@ -13,7 +13,7 @@ export class AuthController {
             const { email, name, password } = req.body;
             const user = await this.registerUser.execute({ email, name, password });
 
-                    // Devolvemos solo datos seguros (sin passwordHash)
+            // Devolvemos solo datos seguros (sin passwordHash)
             const userResponse: Partial<UserDto> = {
                 id: user.id,
                 email: user.email,
@@ -32,7 +32,7 @@ export class AuthController {
             const { email, password } = req.body;
             const {user, token, refreshToken} = await this.loginUser.execute({ email, password });
            
-            res.cookie('accessToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'strict' , maxAge: 15*60*1000  });
+            res.cookie('accessToken', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax' , maxAge: 15*60*1000  });
             res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/api/auth/refresh' , maxAge: 7*24*60*60*1000});
            
             res.status(200).json({ user: { id: user.id, email: user.email} });

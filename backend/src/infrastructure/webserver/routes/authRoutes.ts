@@ -62,7 +62,7 @@ export default (authController: AuthController): Router => {
    *             properties:
    *               email:
    *                 type: string
-   *                 example: "enzo"
+   *                 example: "enzo@gmail.com"
    *               password:
    *                 type: string
    *                 example: "123456"

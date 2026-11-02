@@ -44,6 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (data: LoginCredentials) => {
     const u = await authApi.login(data);
+      console.log('Usuario recibido del backend:', u); // 👈 Añade este log
     persistUser(u);
   };
 
