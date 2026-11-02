@@ -17,6 +17,10 @@ export class Application_DeleteAlbum{
 
         await Promise.all(photos.map(async (photo:any) => {await this.storageService.deleteFile(photo.publicId);}));
 
+        if (existingAlbum.folder) {
+           await this.storageService.deleteFolder(existingAlbum.folder);
+        }
+        
         return this.AlbumRepository.deleteAlbum(albumId);
     }
 

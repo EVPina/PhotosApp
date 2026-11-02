@@ -44,4 +44,16 @@ export class CloudinaryStorageService implements IStorageService {
       throw error;
     }
   }
+
+  async deleteFolder(path: string): Promise<void> {
+    try {
+      await cloudinary.api.delete_folder(path,{ recursive: true });
+    } catch (error: any) {
+      // Cloudinary lanza http_code 404 si la carpeta no existe
+      if (error?.http_code === 404) {
+        console.error(`Error al borrar carpeta en Cloudinary (${path}):`, error);
+        throw error;
+      }
+    }
+  }
 }

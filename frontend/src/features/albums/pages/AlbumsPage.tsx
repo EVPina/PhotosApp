@@ -1,17 +1,35 @@
+// frontend/src/features/albums/pages/AlbumsPage.tsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, FolderOpen } from 'lucide-react';
+import toast from 'react-hot-toast'; // 👈 Importa toast
 import { Button } from '../../../components/ui/Button';
 import { Spinner } from '../../../components/ui/Spinner';
 import { AlbumCard } from '../components/AlbumCard';
 import { CreateAlbumModal } from '../components/CreateAlbumModal';
 import { useAlbums } from '../hooks/useAlbums';
+import { albumsApi } from '../../../api/albumsApi'; // 👈 Importa la API
 
 export function AlbumsPage() {
   const { albums, loading, refresh } = useAlbums();
   const [modalOpen, setModalOpen] = useState(false);
 
   const canCreate = albums.length < 5;
+
+  // 👇 Nueva función para eliminar
+  const handleDelete = async (id: string) => {
+    if (!window.confirm('¿Estás seguro de que quieres eliminar este álbum y todas sus fotos?')) {
+      return;
+    }
+
+    try {
+      await albumsApi.delete(id);
+      toast.success('Álbum eliminado correctamente');
+      refresh(); // Recarga la lista
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Error al eliminar el álbum');
+    }
+  };
 
   return (
     <div>
@@ -59,7 +77,12 @@ export function AlbumsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {albums.map((album, i) => (
-            <AlbumCard key={album.id} album={album} index={i} />
+            <AlbumCard 
+              key={album.id} 
+              album={album} 
+              index={i} 
+              onDelete={handleDelete} // 👈 Le pasamos la función
+            />
           ))}
         </div>
       )}

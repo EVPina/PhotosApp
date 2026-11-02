@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Image as ImageIcon, Sparkles } from 'lucide-react';
+import { Image as ImageIcon, Sparkles, Trash2 } from 'lucide-react';
 import type { Album } from '../../../types/album';
 
 const gradients = [
@@ -11,7 +11,14 @@ const gradients = [
   'from-blue-500 to-cyan-500',
 ];
 
-export function AlbumCard({ album, index }: { album: Album; index: number }) {
+// 👇 Añadimos onDelete a las props
+interface Props {
+  album: Album;
+  index: number;
+  onDelete: (id: string) => void; 
+}
+
+export function AlbumCard({ album, index, onDelete }: Props) {
   const gradient = gradients[index % gradients.length];
   const count = album.photoCount ?? 0;
 
@@ -21,8 +28,22 @@ export function AlbumCard({ album, index }: { album: Album; index: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
       whileHover={{ y: -6 }}
+      className="relative group" // Añadimos relative y group aquí
     >
-      <Link to={`/albums/${album.id}`} className="block group">
+      {/* Botón de eliminar (aparece al pasar el ratón) */}
+      <button
+        onClick={(e) => {
+          e.preventDefault(); // Evita que nos lleve al Link
+          e.stopPropagation(); // Detiene la propagación del evento
+          onDelete(album.id);
+        }}
+        className="absolute top-3 left-3 z-10 p-2 rounded-lg bg-red-500/80 backdrop-blur text-white opacity-0 group-hover:opacity-100 hover:bg-red-500 transition-all"
+        title="Eliminar álbum"
+      >
+        <Trash2 size={16} />
+      </button>
+
+      <Link to={`/albums/${album.id}`} className="block">
         <div className="glass rounded-2xl overflow-hidden hover:shadow-2xl hover:shadow-indigo-500/20 transition-all">
           <div className={`h-40 bg-gradient-to-br ${gradient} relative flex items-center justify-center`}>
             <ImageIcon size={48} className="text-white/80" />

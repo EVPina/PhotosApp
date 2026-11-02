@@ -2,4 +2,5 @@ export interface IStorageService {
     uploadFile(file: Buffer, options?: Record<string, any>): Promise<any>;
     deleteFile(publicId: string): Promise<any>;
     createFolderIfNotExists(path: string): Promise<void>;
+    deleteFolder(path: string): Promise<void>;
 }
